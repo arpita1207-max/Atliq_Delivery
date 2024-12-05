@@ -1,4 +1,7 @@
+```
+
 # Atliq_Delivery
+```
 ```
 Important Terms:-
 
@@ -36,6 +39,8 @@ select * from fact_orders_aggregate;
 #Executive Screen:-
 
 ```
+```
+
 #Total Orders
 
 select count(distinct a.order_id) as total_orders
@@ -246,7 +251,7 @@ group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id limit 1 ;
 ```
 
-```
+
 
 ```
 # Category Summary
