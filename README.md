@@ -197,7 +197,9 @@ group by month(d.date),d.week_no)t;
 ```
 
 # Unsastified Customers by infull
-select customer_name,in_full ,rank() over(order by in_full asc) as in_full_rnk
+
+select * from (
+select customer_name,in_full ,dense_rank() over(order by in_full asc) as in_full_rnk
 #on_time,rank() over(order by on_time asc) as on_time_rnk,
 #otif,rank() over(order by otif asc) as otif_rnk
 from (
@@ -210,13 +212,15 @@ INNER JOIN fact_order_lines l
     AND a.order_placement_date = l.order_placement_date
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
-on c.customer_id=t.customer_id limit 1 ;
+on c.customer_id=t.customer_id) t where in_full_rnk=1 ;
 ```
 
 
 ```
 
 # Unsastified Customers by ontime
+
+select * from (
 select customer_name,
 on_time,dense_rank() over(order by on_time asc) as on_time_rnk
 from (
@@ -229,13 +233,15 @@ INNER JOIN fact_order_lines l
     AND a.order_placement_date = l.order_placement_date
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
-on c.customer_id=t.customer_id where on_time_rnk=1 ;
+on c.customer_id=t.customer_id) t where on_time_rnk=1 ;
 ```
 
 
 ```
 
 # Unsastified Customers by otif
+
+select * from (
 select customer_name,
 otif,rank() over(order by otif asc) as otif_rnk
 from (
@@ -248,7 +254,7 @@ INNER JOIN fact_order_lines l
     AND a.order_placement_date = l.order_placement_date
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
-on c.customer_id=t.customer_id limit 1 ;
+on c.customer_id=t.customer_id )t where otif_rnk= 1 ;
 ```
 
 
@@ -401,7 +407,20 @@ order by total_orders desc;
 
 
 
+```
+#Insights
 
+1. There are a total of 31729 orders
+
+2. There are a total of 57096 Products Sold
+
+3. In Full % 52.28% and In Full Target % 76.51%
+
+4. On Time % 59.03% and On Time Target % 86.09%
+
+5. On Time In Full  % 29.02% and OTIF Target % 65.91%
+
+```
 
 
 
