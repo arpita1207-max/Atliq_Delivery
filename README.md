@@ -129,6 +129,7 @@ group by c.city) t;
 
 
 ```
+
 #In Full ,On Time and OTIF by quarter
 select Quarter,round((in_full/total)*100,2) as in_full_percent,
 round((on_time/total)*100,2) as on_time_percent,
@@ -250,6 +251,10 @@ on c.customer_id=t.customer_id limit 1 ;
 ```
 # Category Summary
 
+```
+
+```
+
 #lifr,lotr,lotif by quarter
 
 select quarter,round(((line_in_full)/(total_prod_sold))*100,2) as lifr_percent,
@@ -332,6 +337,69 @@ group by c.category) t;
 
 
 ```
+
+#Detailed Screen
+
+```
+```
+
+#lifr,lotr,lotif by product_name,category 
+select product_name,category,round(((line_in_full)/(total_prod_sold))*100,2) as lifr_percent,
+round(((line_on_time)/(total_prod_sold))*100,2) as lotr_percent,
+round(((line_otif)/(total_prod_sold))*100,2) as lotif_percent,
+round((vofr*100),2) as vofr_percent,
+total_prod_sold
+from 
+(select c.product_name,c.category,
+count(   case when l.in_full=1 then  a.order_id end) as line_in_full,
+count(   case when l.on_time=1 then  a.order_id end) as line_on_time,
+count(  case when l.on_time_in_full=1 then a.order_id end) as line_otif,
+sum(delivery_qty)/sum(order_qty) as vofr,
+count(  l.order_id) as total_prod_sold from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_products c
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and c.product_id=l.product_id
+group by c.product_name,c.category) t
+order by total_prod_sold desc;
+```
+
+```
+
+# infull,ontime,otifby customer name
+select customer_name,round(((in_full)/(total_orders))*100,2) as in_full_percent,
+round(((on_time)/(total_orders))*100,2) as on_time_percent,
+round(((otif)/(total_orders))*100,2) as otif_percent,
+round(((in_full)/(total_orders))*100,2)-round((infull_target),2) as diff_infull_percent,
+round(((on_time)/(total_orders))*100,2)-round((ontime_target),2) as diff_ontime_percent,
+round(((otif)/(total_orders))*100,2)-round((otif_target),2) as diff_otif_percent,
+total_orders
+from 
+(select c.customer_name,
+count(  distinct case when a.in_full=1 then  a.order_id end) as in_full,
+count( distinct  case when a.on_time=1 then  a.order_id end) as on_time,
+count( distinct case when a.otif=1 then a.order_id end) as otif,
+avg(infull_target) as infull_target,
+avg(ontime_target)  as ontime_target,
+avg(otif_target) as otif_target,
+count( distinct l.order_id) as total_orders from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_customers c inner join dim_targets_orders t
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and t.customer_id=l.customer_id
+and c.customer_id=l.customer_id
+group by c.customer_name) t
+order by total_orders desc;
+```
+
+
+
+
+
+
+
 
 
 
