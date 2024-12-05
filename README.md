@@ -1,5 +1,5 @@
 # Atliq_Delivery
-`
+```
 Important Terms:-
 ADD       :- Actual Delivery Date
 
@@ -17,4 +17,4 @@ LIFR %  :- Line Order In Full Rate
 
 LOTIFR %  :- Line Order On Time In Full Rate
 
-`
+```
