@@ -47,6 +47,7 @@ where a.order_placement_date=l.order_placement_date;
 ```
 
 # Total Products Sold
+
 select count( l.product_id) as total_products_sold
  from fact_order_lines l inner join fact_orders_aggregate a
 on a.order_id=l.order_id
@@ -244,7 +245,93 @@ group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id limit 1 ;
 ```
 
+```
+
+```
+# Category Summary
+
+#lifr,lotr,lotif by quarter
+
+select quarter,round(((line_in_full)/(total_prod_sold))*100,2) as lifr_percent,
+round(((line_on_time)/(total_prod_sold))*100,2) as lotr_percent,
+round(((line_otif)/(total_prod_sold))*100,2) as lotif_percent
+from 
+(select quarter(c.date) as quarter,
+count(   case when l.in_full=1 then  a.order_id end) as line_in_full,
+count(   case when l.on_time=1 then  a.order_id end) as line_on_time,
+count(  case when l.on_time_in_full=1 then a.order_id end) as line_otif,
+count(  l.order_id) as total_prod_sold from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_date c
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and c.date=l.order_placement_date
+group by quarter(c.date)) t;
+```
+
+```
+
+#lifr,lotr,lotif by month
+
+select month,round(((line_in_full)/(total_prod_sold))*100,2) as lifr_percent,
+round(((line_on_time)/(total_prod_sold))*100,2) as lotr_percent,
+round(((line_otif)/(total_prod_sold))*100,2) as lotif_percent
+from 
+(select monthname(c.date) as month,
+count(   case when l.in_full=1 then  a.order_id end) as line_in_full,
+count(   case when l.on_time=1 then  a.order_id end) as line_on_time,
+count(  case when l.on_time_in_full=1 then a.order_id end) as line_otif,
+count(  l.order_id) as total_prod_sold from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_date c
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and c.date=l.order_placement_date
+group by monthname(c.date)) t;
+```
+
+```
+
+#lifr,lotr,lotif by week_no
+
+select week_no,round(((line_in_full)/(total_prod_sold))*100,2) as lifr_percent,
+round(((line_on_time)/(total_prod_sold))*100,2) as lotr_percent,
+round(((line_otif)/(total_prod_sold))*100,2) as lotif_percent
+from 
+(select week_no,
+count(   case when l.in_full=1 then  a.order_id end) as line_in_full,
+count(   case when l.on_time=1 then  a.order_id end) as line_on_time,
+count(  case when l.on_time_in_full=1 then a.order_id end) as line_otif,
+count(  l.order_id) as total_prod_sold from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_date c
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and c.date=l.order_placement_date
+group by c.week_no) t;
+```
+
+```
+lifr,lofr,lotif by category
+select category,round(((line_in_full)/(total_prod_sold))*100,2) as lifr_percent,
+round(((line_on_time)/(total_prod_sold))*100,2) as lotr_percent,
+round(((line_otif)/(total_prod_sold))*100,2) as lotif_percent
+from 
+(select c.category,
+count(   case when l.in_full=1 then  a.order_id end) as line_in_full,
+count(   case when l.on_time=1 then  a.order_id end) as line_on_time,
+count(  case when l.on_time_in_full=1 then a.order_id end) as line_otif,
+count(  l.order_id) as total_prod_sold from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_products c
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and c.product_id=l.product_id
+group by c.category) t;
+```
 
 
 ```
+
+
 
