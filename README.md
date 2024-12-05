@@ -35,17 +35,25 @@ select * from fact_orders_aggregate;
 ```
 #Executive Screen:-
 
+```
 #Total Orders
+
 select count(distinct a.order_id) as total_orders
  from fact_order_lines l inner join fact_orders_aggregate a
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date;
+```
+
+```
 
 # Total Products Sold
 select count( l.product_id) as total_products_sold
  from fact_order_lines l inner join fact_orders_aggregate a
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date;
+```
+
+```
 
 # In Full% and InFull Target
 select * from dim_targets_orders;
@@ -59,7 +67,9 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
+```
 
+```
 
 # On Time% and On Time Target
 select round(sum(on_time)/sum(total)*100,2) as on_time_percent,round(avg(ontime_target),2) as on_time_target
@@ -72,6 +82,9 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
+```
+
+```
 
 # Otif% and Otif Target
 select round(sum(otif)/sum(total)*100,2) as otif_percent,round(avg(otif_target),2) as otif_target
@@ -84,6 +97,9 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
+```
+
+```
 
 # In Full,InFull Target ,On Time ,OnTime Target,Otif,Otif target by  city
 select city,round((in_full)/(total)*100,2) in_full_percent,
@@ -108,8 +124,10 @@ and a.customer_id=l.customer_id
 and t.customer_id=a.customer_id 
 and c.customer_id=t.customer_id
 group by c.city) t;
+```
 
 
+```
 #In Full ,On Time and OTIF by quarter
 select Quarter,round((in_full/total)*100,2) as in_full_percent,
 round((on_time/total)*100,2) as on_time_percent,
@@ -126,7 +144,9 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and d.date=l.order_placement_date
 group by quarter(d.date))t;
+```
 
+```
 
 #In Full ,On Time and OTIF by month
 select Month,round((in_full/total)*100,2) as in_full_percent,
@@ -144,6 +164,10 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and d.date=l.order_placement_date
 group by month(d.date))t;
+```
+
+
+```
 
 #In Full ,On Time and OTIF by week no
 select Month,Week_No,round((in_full/total)*100,2) as in_full_percent,
@@ -161,6 +185,9 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and d.date=l.order_placement_date
 group by month(d.date),d.week_no)t;
+```
+
+```
 
 # Unsastified Customers by infull
 select customer_name,in_full ,rank() over(order by in_full asc) as in_full_rnk
@@ -177,8 +204,10 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id limit 1 ;
+```
 
 
+```
 
 # Unsastified Customers by ontime
 select customer_name,
@@ -193,11 +222,13 @@ INNER JOIN fact_order_lines l
     AND a.order_placement_date = l.order_placement_date
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
-on c.customer_id=t.customer_id limit 2 ;
+on c.customer_id=t.customer_id where on_time_rnk=1 ;
+```
 
 
+```
 
-# Unsastified Customers by ontime
+# Unsastified Customers by otif
 select customer_name,
 otif,rank() over(order by otif asc) as otif_rnk
 from (
@@ -211,6 +242,7 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id limit 1 ;
+```
 
 
 
