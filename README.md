@@ -47,10 +47,10 @@ select count(distinct a.order_id) as total_orders
  from fact_order_lines l inner join fact_orders_aggregate a
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date;
-
+```
 ![Total Orders](https://github.com/user-attachments/assets/2c3babf6-aedc-44ea-b041-1c767d76f543)
 
-```
+
 
 ```
 
@@ -60,10 +60,11 @@ select count( l.product_id) as total_products_sold
  from fact_order_lines l inner join fact_orders_aggregate a
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date;
+```
 
 ![Total Products Sold](https://github.com/user-attachments/assets/673aa70a-4eb0-49a7-b723-7b8731feaf7c)
 
-```
+
 
 ```
 
@@ -79,11 +80,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
-
+```
 
 ![in full percent](https://github.com/user-attachments/assets/b44a768c-2d8f-4648-9d5b-41c247e286cf)
 
-```
+
 
 ```
 
@@ -98,11 +99,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
-
+```
 
 ![on time](https://github.com/user-attachments/assets/1b3eb73c-d093-4455-9bd3-d1afc72f1b93)
 
-```
+
 
 ```
 
@@ -117,10 +118,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
+```
 
 ![otif](https://github.com/user-attachments/assets/3373ce49-2a3c-49fe-9da1-61b921cf2f3e)
 
-```
+
 
 ```
 
@@ -147,10 +149,11 @@ and a.customer_id=l.customer_id
 and t.customer_id=a.customer_id 
 and c.customer_id=t.customer_id
 group by c.city) t;
+```
 
 ![by city](https://github.com/user-attachments/assets/84b3345e-9cfa-412b-ad62-d1fdf66d334a)
 
-```
+
 
 
 ```
@@ -171,10 +174,10 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and d.date=l.order_placement_date
 group by quarter(d.date))t;
-
+```
 ![quarter orders](https://github.com/user-attachments/assets/86ac1910-774d-49fb-9a31-29ddfe9d0fc1)
 
-```
+
 
 ```
 
@@ -194,10 +197,10 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and d.date=l.order_placement_date
 group by month(d.date))t;
+```
 
 ![month order](https://github.com/user-attachments/assets/922bcd5b-0439-486a-a972-0724721d3241)
 
-```
 
 
 ```
@@ -218,10 +221,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and d.date=l.order_placement_date
 group by month(d.date),d.week_no)t;
+```
 
 ![week order](https://github.com/user-attachments/assets/1f1f3c1b-bcb4-4cab-9bf4-f0c8d3ff7065)
 
-```
+
 
 ```
 
@@ -242,10 +246,11 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id) t where in_full_rnk=1 ;
+```
 
 ![in full rnk](https://github.com/user-attachments/assets/eb3d8025-56ee-46da-bed4-f24487e29a96)
 
-```
+
 
 
 ```
@@ -266,10 +271,11 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id) t where on_time_rnk=1 ;
+```
 
 ![ontime rnk](https://github.com/user-attachments/assets/fc697a12-f6dd-4674-a910-c42d530224b8)
 
-```
+
 
 
 ```
@@ -290,10 +296,11 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id )t where otif_rnk= 1 ;
+```
 
 ![otif rnk](https://github.com/user-attachments/assets/5441e591-50bc-4a60-b785-79d6d949077f)
 
-```
+
 
 
 
@@ -321,10 +328,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and c.date=l.order_placement_date
 group by quarter(c.date)) t;
+```
 
 ![ifr by quar](https://github.com/user-attachments/assets/ef1e0a0d-2bdc-403f-ad68-b3830b885606)
 
-```
+
 
 ```
 
@@ -345,11 +353,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and c.date=l.order_placement_date
 group by monthname(c.date)) t;
-
+```
 
 ![prod line month](https://github.com/user-attachments/assets/1bba9562-b060-4d45-8061-729b449fa6aa)
 
-```
+
 
 ```
 
@@ -370,10 +378,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and c.date=l.order_placement_date
 group by c.week_no) t;
+```
 
 ![prod line week ](https://github.com/user-attachments/assets/111a034b-9fb8-4340-84fa-b1e47a43db73)
 
-```
+
 
 ```
 lifr,lofr,lotif by category
@@ -392,10 +401,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 and c.product_id=l.product_id
 group by c.category) t;
+```
 
 ![categ line](https://github.com/user-attachments/assets/d4b6ed9a-f5d3-4426-9ca2-39df210d5ee3)
 
-```
+
 
 
 ```
@@ -425,10 +435,11 @@ and a.customer_id=l.customer_id
 and c.product_id=l.product_id
 group by c.product_name,c.category) t
 order by total_prod_sold desc;
+```
 
 ![prod and category by line](https://github.com/user-attachments/assets/39564101-2cc6-414e-b07e-4584ebbff6f8)
 
-```
+
 
 ```
 
@@ -457,10 +468,10 @@ and t.customer_id=l.customer_id
 and c.customer_id=l.customer_id
 group by c.customer_name) t
 order by total_orders desc;
-
+```
 ![customer by line](https://github.com/user-attachments/assets/365a30ea-83fb-4e56-8e66-11b2b3bb46f4)
 
-```
+
 
 
 
