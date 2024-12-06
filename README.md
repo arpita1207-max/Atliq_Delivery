@@ -319,6 +319,49 @@ on c.customer_id=t.customer_id )t where otif_rnk= 1 ;
 # Category Summary
 
 ```
+```
+
+# Line In full percent
+select
+round(count(   case when l.in_full=1 then  a.order_id end) /count(  l.order_id)*100,2) as lifr_percent from 
+fact_orders_aggregate a inner join fact_order_lines l
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id;
+```
+
+```
+
+# Line On time percent
+select
+round(count(   case when l.on_time=1 then  a.order_id end) /count(  l.order_id)*100,2) as lotr_percent from 
+fact_orders_aggregate a inner join fact_order_lines l
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id;
+```
+
+```
+
+# Line On time In full percent
+select
+round(count(   case when l.on_time_in_full=1 then  a.order_id end) /count(  l.order_id)*100,2) as lotif_percent from 
+fact_orders_aggregate a inner join fact_order_lines l
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id;
+```
+
+```
+
+#vofr percent
+select
+round(sum(l.delivery_qty) /sum(l.order_qty)*100,2) as vofr_percent from 
+fact_orders_aggregate a inner join fact_order_lines l
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id;
+```
 
 ```
 
