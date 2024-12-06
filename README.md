@@ -50,6 +50,8 @@ select * from fact_orders_aggregate;
 #Executive Screen:-
 
 ```
+![Executive Screen](https://github.com/user-attachments/assets/11d78b58-2206-46e1-9eee-ce273da83a8f)
+
 ```
 
 #Total Orders
@@ -319,6 +321,8 @@ on c.customer_id=t.customer_id )t where otif_rnk= 1 ;
 # Category Summary
 
 ```
+![Category ](https://github.com/user-attachments/assets/a2549235-b582-44af-8433-eec06ca9a34d)
+
 ```
 
 # Line In full percent
@@ -474,6 +478,8 @@ group by c.category) t;
 #Detailed Screen
 
 ```
+![delivery](https://github.com/user-attachments/assets/b4bf4f32-b364-47c5-9540-62e30b48adad)
+
 ```
 
 #lifr,lotr,lotif by product_name,category 
