@@ -549,6 +549,21 @@ order by total_orders desc;
 
 5. On Time In Full  % 29.02% and OTIF Target % 65.91%
 
+6. Line In Full %
+
+6. 6.1 Lotus Mart customer has placed highest order 3550 and their is a  delay in between the
+       Actual IF%  53.35 and and IF% target 75.38.It missed in mark by 22.03.
+       Actual OT%  28.11 and and OT% target 77.3.It missed in mark by 49.19.
+       Actual OTIF%  16.34 and and OTIF% target 57.97.It missed in mark by 41.63.
+
+  6.2 Acclaimed Stores customer has placed highest order 3510 and their is a  delay in between the
+       Actual IF%  52.36 and and IF% target 75.41.It missed in mark by -23.05.
+       Actual OT%  29.43 and and OT% target 76.35.It missed in mark by -46.92.
+       Actual OTIF%  15.47 and and OTIF% target 57.74.It missed in mark by -42.27.
+
+
+
+
 ```
 
 
