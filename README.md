@@ -48,8 +48,10 @@ select * from fact_orders_aggregate;
 
 ```
 Model
-
 ```
+![Model](https://github.com/user-attachments/assets/4a79529c-1779-4cb7-bec0-4809fad84c34)
+
+
 
 ```
 #Executive Screen:-
