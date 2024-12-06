@@ -330,6 +330,8 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
 ```
 
+![lifr_percent](https://github.com/user-attachments/assets/aa953a2a-999a-4e28-81cb-554506fda91d)
+
 ```
 
 # Line On time percent
@@ -340,6 +342,8 @@ on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
 ```
+
+![lotr_percent](https://github.com/user-attachments/assets/5c6a76d9-898d-424c-ad53-129266fb4162)
 
 ```
 
@@ -352,6 +356,8 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
 ```
 
+![lotif_percent](https://github.com/user-attachments/assets/15606d40-b287-4211-8251-d9e6ca81dbc6)
+
 ```
 
 #vofr percent
@@ -362,6 +368,7 @@ on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
 ```
+![vofr](https://github.com/user-attachments/assets/b1a4d77b-946b-4e9d-abbf-dc69e53adc9b)
 
 ```
 
