@@ -60,26 +60,36 @@ Model
 ![Executive Screen](https://github.com/user-attachments/assets/11d78b58-2206-46e1-9eee-ce273da83a8f)
 
 ```
-
+#SQL QUERY
 #Total Orders
 
 select count(distinct a.order_id) as total_orders
  from fact_order_lines l inner join fact_orders_aggregate a
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date;
+
+#DAX QUERY
+#Total Orders
+
+Total Orders = COUNT(fact_orders_aggregate[order_id])
 ```
 ![Total Orders](https://github.com/user-attachments/assets/2c3babf6-aedc-44ea-b041-1c767d76f543)
 
 
 
 ```
-
+#sql query
 # Total Products Sold
 
 select count( l.product_id) as total_products_sold
  from fact_order_lines l inner join fact_orders_aggregate a
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date;
+
+#dax query
+# Total Products Sold
+
+Total Products Sold = COUNT(fact_order_lines[product_id])
 ```
 
 ![Total Products Sold](https://github.com/user-attachments/assets/673aa70a-4eb0-49a7-b723-7b8731feaf7c)
@@ -87,7 +97,7 @@ where a.order_placement_date=l.order_placement_date;
 
 
 ```
-
+# sql query
 # In Full% and InFull Target
 select * from dim_targets_orders;
 select round(sum(in_full)/sum(total)*100,2) as in_full_percent,round(avg(infull_target),2) as in_full_target
@@ -100,6 +110,12 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
+
+# dax query
+# In Full% and InFull Target
+
+In_Full_% = var InFull =CALCULATE(COUNT(fact_orders_aggregate[order_id]),fact_orders_aggregate[in_full]=1)  return DIVIDE(InFull ,[Total Orders],0)
+InFull Target % = AVERAGE(dim_targets_orders[infull_target%])/100
 ```
 
 ![in full percent](https://github.com/user-attachments/assets/b44a768c-2d8f-4648-9d5b-41c247e286cf)
@@ -107,7 +123,7 @@ on o.customer_id=t.customer_id;
 
 
 ```
-
+# sql query
 # On Time% and On Time Target
 select round(sum(on_time)/sum(total)*100,2) as on_time_percent,round(avg(ontime_target),2) as on_time_target
 from (
@@ -119,6 +135,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
+
+# dax query
+# On Time% and On Time Target
+OnTime % = var ontime=CALCULATE(COUNT(fact_orders_aggregate[order_id]),fact_orders_aggregate[on_time]=1) return DIVIDE(ontime,[Total Orders],0)
+OnTime Target % = AVERAGE(dim_targets_orders[ontime_target%])/100 
 ```
 
 ![on time](https://github.com/user-attachments/assets/1b3eb73c-d093-4455-9bd3-d1afc72f1b93)
@@ -126,7 +147,7 @@ on o.customer_id=t.customer_id;
 
 
 ```
-
+# sql query
 # Otif% and Otif Target
 select round(sum(otif)/sum(total)*100,2) as otif_percent,round(avg(otif_target),2) as otif_target
 from (
@@ -138,6 +159,11 @@ where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id
 group by a.customer_id)t inner join dim_targets_orders o
 on o.customer_id=t.customer_id;
+
+# dax query
+# Otif% and Otif Target
+OnTimeInFull % = var ontimeinfull=CALCULATE(COUNT(fact_orders_aggregate[order_id]),fact_orders_aggregate[otif]=1) return DIVIDE(ontimeinfull,[Total Orders],0)
+OnTimeInFull Target % = AVERAGE(dim_targets_orders[otif_target%])/100
 ```
 
 ![otif](https://github.com/user-attachments/assets/3373ce49-2a3c-49fe-9da1-61b921cf2f3e)
@@ -248,7 +274,7 @@ group by month(d.date),d.week_no)t;
 
 
 ```
-
+# sql query
 # Unsastified Customers by infull
 
 select * from (
@@ -266,6 +292,10 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id) t where in_full_rnk=1 ;
+
+# dax query
+# Unsastified Customers by infull
+Most Dissastified Customers by IF% = var BottomCustomer=  TOPN(1,dim_customers,[In_Full_%],ASC) return CONCATENATEX(BottomCustomer,dim_customers[customer_name],",")
 ```
 
 ![in full rnk](https://github.com/user-attachments/assets/eb3d8025-56ee-46da-bed4-f24487e29a96)
@@ -274,7 +304,7 @@ on c.customer_id=t.customer_id) t where in_full_rnk=1 ;
 
 
 ```
-
+# sql query
 # Unsastified Customers by ontime
 
 select * from (
@@ -291,6 +321,10 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id) t where on_time_rnk=1 ;
+
+# dax query
+# Unsastified Customers by ontime
+Most Dissastified Customers by OT% = var BottomCustomer=  TOPN(1,dim_customers,[OnTime %],ASC) return CONCATENATEX(BottomCustomer,dim_customers[customer_name],",")
 ```
 
 ![ontime rnk](https://github.com/user-attachments/assets/fc697a12-f6dd-4674-a910-c42d530224b8)
@@ -299,7 +333,7 @@ on c.customer_id=t.customer_id) t where on_time_rnk=1 ;
 
 
 ```
-
+# sql query
 # Unsastified Customers by otif
 
 select * from (
@@ -316,11 +350,74 @@ INNER JOIN fact_order_lines l
     AND a.customer_id = l.customer_id
 group by a.customer_id) t inner join  dim_customers c
 on c.customer_id=t.customer_id )t where otif_rnk= 1 ;
+
+# dax query
+# Unsastified Customers by otif
+
+Most Dissastified Customers by OTIF% = var BottomCustomer=  TOPN(1,dim_customers,[OnTimeInFull %],ASC) return CONCATENATEX(BottomCustomer,dim_customers[customer_name],",")
 ```
 
 ![otif rnk](https://github.com/user-attachments/assets/5441e591-50bc-4a60-b785-79d6d949077f)
 
 
+```
+# sql query
+# Worst performing product by IF%
+select * from (
+select product_name, dense_rank() over(order by lifr_percent asc) as lifr_rnk from 
+(select p.product_name,
+round(count(   case when l.in_full=1 then  a.order_id end) /count(  l.order_id)*100,2) as lifr_percent from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_products p
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and l.product_id=p.product_id
+group by p.product_name)t) t1 where lifr_rnk=1;
+
+#dax query
+# Bottom Product by IF%
+
+Underperforming Products by IF% = var BottomProduct=  TOPN(1,dim_products,[LIFR %],ASC) return PATHITEM(CONCATENATEX(BottomProduct,dim_products[product_name],","),1,TEXT)
+```
+
+```
+# sql query
+# Worst performing product by OT%
+select * from (
+select product_name, dense_rank() over(order by lotr_percent asc) as lotr_rnk from 
+(select p.product_name,
+round(count(   case when l.on_time=1 then  a.order_id end) /count(  l.order_id)*100,2) as lotr_percent from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_products p
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and l.product_id=p.product_id
+group by p.product_name)t) t1 where lotr_rnk=1;
+
+#dax query
+# Bottom Product by OT%
+
+Underperforming Products by OT% = var BottomProduct=  TOPN(1,dim_products,[LOTR %],ASC) return PATHITEM(CONCATENATEX(BottomProduct,dim_products[product_name],","),1,TEXT)```
+```
+
+```
+# sql query
+# Worst performing product by OTIF%
+select * from (
+select product_name, dense_rank() over(order by lotif_percent asc) as lotif_rnk from 
+(select p.product_name,
+round(count(   case when l.on_time_in_full=1 then  a.order_id end) /count(  l.order_id)*100,2) as lotif_percent from 
+fact_orders_aggregate a inner join fact_order_lines l inner join dim_products p
+on a.order_id=l.order_id
+where a.order_placement_date=l.order_placement_date
+and a.customer_id=l.customer_id
+and l.product_id=p.product_id
+group by p.product_name)t) t1 where lotif_rnk=1;
+#dax query
+# Bottom Product by OTIF%
+
+Underperforming Products by OTIF% = var BottomProduct=  TOPN(1,dim_products,[LOTIF %],ASC) return PATHITEM(CONCATENATEX(BottomProduct,dim_products[product_name],","),1,TEXT)
+```
 
 
 
@@ -331,7 +428,7 @@ on c.customer_id=t.customer_id )t where otif_rnk= 1 ;
 ![Category ](https://github.com/user-attachments/assets/a2549235-b582-44af-8433-eec06ca9a34d)
 
 ```
-
+# sql query
 # Line In full percent
 select
 round(count(   case when l.in_full=1 then  a.order_id end) /count(  l.order_id)*100,2) as lifr_percent from 
@@ -339,25 +436,36 @@ fact_orders_aggregate a inner join fact_order_lines l
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
+
+# dax query
+# Line In full percent
+
+LIFR % = VAR LIFR =CALCULATE(COUNT(fact_order_lines[order_id]),fact_order_lines[In_Full]=1) RETURN DIVIDE(LIFR,[Total Products Sold],0)
 ```
 
 ![lifr_percent](https://github.com/user-attachments/assets/aa953a2a-999a-4e28-81cb-554506fda91d)
 
 ```
-
+# sql query
 # Line On time percent
+
 select
 round(count(   case when l.on_time=1 then  a.order_id end) /count(  l.order_id)*100,2) as lotr_percent from 
 fact_orders_aggregate a inner join fact_order_lines l
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
+
+# dax query
+# Line On time percent
+
+LOTR % = VAR LOTR =CALCULATE(COUNT(fact_order_lines[order_id]),fact_order_lines[On_Time]=1) RETURN DIVIDE(LOTR,[Total Products Sold],0)
 ```
 
 ![lotr_percent](https://github.com/user-attachments/assets/5c6a76d9-898d-424c-ad53-129266fb4162)
 
 ```
-
+# sql query
 # Line On time In full percent
 select
 round(count(   case when l.on_time_in_full=1 then  a.order_id end) /count(  l.order_id)*100,2) as lotif_percent from 
@@ -365,12 +473,18 @@ fact_orders_aggregate a inner join fact_order_lines l
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
+
+# dax query
+# Line On time In full percent
+
+LOTIF % = VAR LOTIF =CALCULATE(COUNT(fact_order_lines[order_id]),fact_order_lines[On_Time_In_Full]=1) RETURN DIVIDE(LOTIF,[Total Products Sold],0)
+
 ```
 
 ![lotif_percent](https://github.com/user-attachments/assets/15606d40-b287-4211-8251-d9e6ca81dbc6)
 
 ```
-
+# sql query
 #vofr percent
 select
 round(sum(l.delivery_qty) /sum(l.order_qty)*100,2) as vofr_percent from 
@@ -378,6 +492,12 @@ fact_orders_aggregate a inner join fact_order_lines l
 on a.order_id=l.order_id
 where a.order_placement_date=l.order_placement_date
 and a.customer_id=l.customer_id;
+
+# dax query
+#vofr percent
+
+VOFR % = DIVIDE(SUM(fact_order_lines[delivery_qty]),SUM(fact_order_lines[order_qty]),0)
+
 ```
 ![vofr](https://github.com/user-attachments/assets/b1a4d77b-946b-4e9d-abbf-dc69e53adc9b)
 
