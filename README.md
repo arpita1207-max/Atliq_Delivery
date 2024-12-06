@@ -549,17 +549,50 @@ order by total_orders desc;
 
 5. On Time In Full  % 29.02% and OTIF Target % 65.91%
 
-6. Line In Full %
+6. Line In Full % 65.96%.
 
-6. 6.1 Lotus Mart customer has placed highest order 3550 and their is a  delay in between the
+7. Line On Time % 71.12%.
+
+8. Line On Time In Full % 47.95%.
+
+9. VOFR % 96.59%
+
+10. IF % and OTIF% is highest in Q3(From Month July to Sep) 
+   Quarter	Line On Time % 	Line On Time %	Line On Time In Full %
+     1	         65.79	                71.45	        48.00
+     2	         65.93	                70.94	        47.76
+     3	         66.09	                71.22	        48.22
+
+
+11.Most Unsatisified Customer by IF% is Elite Mart.Most Unsatisified Customer by OT% is Lotus Mart,Acclaimed Stores.Most Unsatisified Customer by OTIF% is Acclaimed Stores.
+
+
+
+12. 12.1 Lotus Mart customer has placed highest order 3550 and their is a  delay in between the
        Actual IF%  53.35 and and IF% target 75.38.It missed in mark by 22.03.
        Actual OT%  28.11 and and OT% target 77.3.It missed in mark by 49.19.
        Actual OTIF%  16.34 and and OTIF% target 57.97.It missed in mark by 41.63.
 
-  6.2 Acclaimed Stores customer has placed highest order 3510 and their is a  delay in between the
+  12.2 Acclaimed Stores customer has placed highest order 3510 and their is a  delay in between the
        Actual IF%  52.36 and and IF% target 75.41.It missed in mark by -23.05.
        Actual OT%  29.43 and and OT% target 76.35.It missed in mark by -46.92.
        Actual OTIF%  15.47 and and OTIF% target 57.74.It missed in mark by -42.27.
+
+
+13. Food Items has the highest percentage by IF%,OT% and OTIF%.
+Category	    lifr_percent	    lotr_percent        lotif_percent
+Dairy	                   65.95	            70.81	47.83
+Food	                   66.43	            72.07	48.84
+beverages	           65.54	            71.40	47.55
+
+
+14. Top 3 Products by Total Product Sold.VOFR %(delivery_qty/order_qty) is aroud 96% for below three products.
+Product 	        Category	lifr_percent	lotr_percent	lotif_percent	vofr_percent	total_prod_sold
+AM Butter 500	        Dairy	                65.19	           70.39	46.39	      96.46	3272
+AM Ghee 150	        Dairy	                66.72	           69.87	47.93	      96.69	3209
+AM Ghee 250	        Dairy	                65.25	           69.59	46.94	      96.53	3200
+
+
 
 
 
