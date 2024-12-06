@@ -380,6 +380,8 @@ group by p.product_name)t) t1 where lifr_rnk=1;
 Underperforming Products by IF% = var BottomProduct=  TOPN(1,dim_products,[LIFR %],ASC) return PATHITEM(CONCATENATEX(BottomProduct,dim_products[product_name],","),1,TEXT)
 ```
 
+![worst prod if](https://github.com/user-attachments/assets/67b50387-77a0-45d4-b714-540c1c08f2a2)
+
 ```
 # sql query
 # Worst performing product by OT%
@@ -399,6 +401,7 @@ group by p.product_name)t) t1 where lotr_rnk=1;
 
 Underperforming Products by OT% = var BottomProduct=  TOPN(1,dim_products,[LOTR %],ASC) return PATHITEM(CONCATENATEX(BottomProduct,dim_products[product_name],","),1,TEXT)```
 ```
+![worst prod by ot](https://github.com/user-attachments/assets/a4ccbe5f-1a39-4eea-9844-33fa25dacee5)
 
 ```
 # sql query
@@ -418,6 +421,7 @@ group by p.product_name)t) t1 where lotif_rnk=1;
 
 Underperforming Products by OTIF% = var BottomProduct=  TOPN(1,dim_products,[LOTIF %],ASC) return PATHITEM(CONCATENATEX(BottomProduct,dim_products[product_name],","),1,TEXT)
 ```
+![worst prod by otif](https://github.com/user-attachments/assets/24bd5595-5445-4cc5-93b5-188a5d416518)
 
 
 
